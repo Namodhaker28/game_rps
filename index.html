@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        .button {
+            font-size: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        #playerChoice, #computerChoice {
+            font-size: 48px;
+            height: 50px;
+            transition: transform 0.5s ease;
+        }
+
+        .animated {
+            transform: translateY(-20px);
+        }
+
+        #gameResult {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+    <button class="button" onclick="userPlay('rock')">👊</button>
+    <button class="button" onclick="userPlay('paper')">✋</button>
+    <button class="button" onclick="userPlay('scissors')">✌️</button>
+
+    <div>
+        <span id="playerChoice">?</span> vs <span id="computerChoice">?</span>
+    </div>
+
+    <div id="gameResult"></div>
+
+    <script>
+        function userPlay(userChoice) {
+            var computerChoice = getComputerChoice();
+            animateChoices(userChoice, computerChoice);
+            var result = determineWinner(userChoice, computerChoice);
+            setTimeout(function() { displayResult(result); }, 500); // Delay to show animation
+        }
+
+        function getComputerChoice() {
+            var choices = ['rock', 'paper', 'scissors'];
+            return choices[Math.floor(Math.random() * choices.length)];
+        }
+
+        function determineWinner(userChoice, computerChoice) {
+            if (userChoice === computerChoice) {
+                return "It's a tie!";
+            }
+            if ((userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')) {
+                return 'You win!';
+            }
+            return 'You lose!';
+        }
+
+        function displayResult(message) {
+            var resultDiv = document.getElementById('gameResult');
+            resultDiv.innerHTML = message;
+        }
+
+        function animateChoices(userChoice, computerChoice) {
+            var playerChoiceDiv = document.getElementById('playerChoice');
+            var computerChoiceDiv = document.getElementById('computerChoice');
+
+            playerChoiceDiv.innerHTML = getEmoji(userChoice);
+            computerChoiceDiv.innerHTML = getEmoji(computerChoice);
+
+            playerChoiceDiv.classList.add('animated');
+            computerChoiceDiv.classList.add('animated');
+
+            setTimeout(function() {
+                playerChoiceDiv.classList.remove('animated');
+                computerChoiceDiv.classList.remove('animated');
+            }, 500);
+        }
+
+        function getEmoji(choice) {
+            if (choice === 'rock') return '👊';
+            if (choice === 'paper') return '✋';
+            return '✌️';
+        }
+    </script>
+</body>
+</html>
